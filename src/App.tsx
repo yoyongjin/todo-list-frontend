@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { styled, createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+import Form from "./components/molecules/Form";
 
-function App() {
+const GlobalStyles = createGlobalStyle`
+  ${reset};
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fcc;
+`;
+
+const TodoListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
+  max-height: 500px;
+  background-color: #fff;
+`;
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <GlobalStyles />
+      <TodoListContainer>
+        <Form />
+      </TodoListContainer>
+    </Container>
   );
-}
+};
 
 export default App;
