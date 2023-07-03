@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
 import styled from "styled-components";
@@ -9,15 +9,25 @@ const Container = styled.form`
 `;
 
 const Form = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const onSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("asdf");
+
+    if (inputRef.current) {
+      const value = inputRef.current.value;
+      console.log(value);
+    } else {
+      console.log("inputRef.current is null!!!!!!!!!!!");
+    }
   };
+
   return (
     <Container>
       <Input
         width="80%"
         placeholder="input todo"
+        ref={inputRef}
       />
       <Button
         type="submit"

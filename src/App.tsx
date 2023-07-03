@@ -22,6 +22,9 @@ const TodoListContainer = styled.div`
   justify-content: center;
   width: 60%;
   max-height: 500px;
+  border-radius: 5px;
+  padding: 20px;
+  overflow: auto;
   background-color: #fff;
 `;
 const App = () => {
