@@ -2,23 +2,31 @@ import React, { useRef } from "react";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
 import styled from "styled-components";
+import { Todo } from "../../types";
+
+interface FormProps {
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+}
 
 const Container = styled.form`
   display: flex;
   justify-content: space-between;
 `;
 
-const Form = () => {
+const Form = ({ setTodos }: FormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (inputRef.current) {
-      const value = inputRef.current.value;
-      console.log(value);
-    } else {
-      console.log("inputRef.current is null!!!!!!!!!!!");
+      console.log(inputRef.current.value);
+      const newTodo = {
+        id: Date.now(),
+        text: inputRef.current.value,
+      };
+      setTodos((prev: Todo[]) => [...prev, newTodo]);
+      inputRef.current.value = "";
     }
   };
 
