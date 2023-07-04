@@ -23,7 +23,7 @@ const Form = ({ setTodos }: FormProps) => {
       console.log(inputRef.current.value);
       const newTodo = {
         id: Date.now(),
-        text: inputRef.current.value,
+        content: inputRef.current.value,
       };
       setTodos((prev: Todo[]) => [...prev, newTodo]);
       inputRef.current.value = "";

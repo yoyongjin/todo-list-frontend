@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "../molecules/Form";
 import styled from "styled-components";
 import ListItem from "../molecules/ListItem";
 import { Todo } from "../../types";
+import axios from "axios";
+import Button from "../atoms/Button";
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +30,19 @@ const TodoList = () => {
 
   console.log(todos);
 
+  useEffect(() => {
+    const fetchTodoList = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/todos");
+        setTodos(res.data);
+      } catch (error) {
+        console.error("Error fetching todo list:", error);
+      }
+    };
+
+    fetchTodoList();
+  }, []);
+
   return (
     <Container>
       <Form setTodos={setTodos} />
@@ -37,7 +52,7 @@ const TodoList = () => {
             <ListItem
               key={todo.id}
               id={todo.id}
-              text={todo.text}
+              content={todo.content}
               setTodos={setTodos}
             />
           );

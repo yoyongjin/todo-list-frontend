@@ -6,7 +6,7 @@ import Input from "../atoms/Input";
 
 interface ListItemProps {
   id: number;
-  text: string;
+  content: string;
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
@@ -23,12 +23,12 @@ const TodoStateBox = styled.div`
   align-items: center;
 `;
 
-const ListItem = ({ id, text, setTodos }: ListItemProps) => {
+const ListItem = ({ id, content, setTodos }: ListItemProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const onCheckHandler = () => {
     setIsChecked((prev) => !prev);
   };
-  console.log("isChecked of", text, "is", isChecked);
+  console.log("isChecked of", content, "is", isChecked);
 
   const onDeleteHandler = () => {
     console.log("delete");
@@ -36,18 +36,16 @@ const ListItem = ({ id, text, setTodos }: ListItemProps) => {
   };
 
   return (
-    <>
-      <Container>
-        <span>{text}</span>
-        <TodoStateBox>
-          <Input
-            type="checkbox"
-            onChange={onCheckHandler}
-          />
-          {isChecked ? <Button onClick={onDeleteHandler}>DEL</Button> : ""}
-        </TodoStateBox>
-      </Container>
-    </>
+    <Container>
+      <span>{content}</span>
+      <TodoStateBox>
+        <Input
+          type="checkbox"
+          onChange={onCheckHandler}
+        />
+        {isChecked ? <Button onClick={onDeleteHandler}>DEL</Button> : ""}
+      </TodoStateBox>
+    </Container>
   );
 };
 
