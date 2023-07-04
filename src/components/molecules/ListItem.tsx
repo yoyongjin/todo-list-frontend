@@ -4,6 +4,12 @@ import { Todo } from "../../types";
 import styled from "styled-components";
 import Input from "../atoms/Input";
 
+interface ListItemProps {
+  id: number;
+  text: string;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+}
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -17,21 +23,27 @@ const TodoStateBox = styled.div`
   align-items: center;
 `;
 
-const ListItem = (todo: Todo) => {
+const ListItem = ({ id, text, setTodos }: ListItemProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const onCheckHandler = () => {
     setIsChecked((prev) => !prev);
   };
-  console.log("isChecked of", todo.text, "is", isChecked);
+  console.log("isChecked of", text, "is", isChecked);
+
+  const onDeleteHandler = () => {
+    console.log("delete");
+    setTodos((todos: Todo[]) => todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <Container>
-      <span>{todo.text}</span>
+      <span>{text}</span>
       <TodoStateBox>
         <Input
           type="checkbox"
           onChange={onCheckHandler}
         />
-        <Button>DEL</Button>
+        <Button onClick={onDeleteHandler}>DEL</Button>
       </TodoStateBox>
     </Container>
   );

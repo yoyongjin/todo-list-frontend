@@ -38,6 +38,7 @@ const TodoList = () => {
               key={todo.id}
               id={todo.id}
               text={todo.text}
+              setTodos={setTodos}
             />
           );
         })}
