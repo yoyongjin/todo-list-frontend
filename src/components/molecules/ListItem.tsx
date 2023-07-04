@@ -36,16 +36,18 @@ const ListItem = ({ id, text, setTodos }: ListItemProps) => {
   };
 
   return (
-    <Container>
-      <span>{text}</span>
-      <TodoStateBox>
-        <Input
-          type="checkbox"
-          onChange={onCheckHandler}
-        />
-        <Button onClick={onDeleteHandler}>DEL</Button>
-      </TodoStateBox>
-    </Container>
+    <>
+      <Container>
+        <span>{text}</span>
+        <TodoStateBox>
+          <Input
+            type="checkbox"
+            onChange={onCheckHandler}
+          />
+          {isChecked ? <Button onClick={onDeleteHandler}>DEL</Button> : ""}
+        </TodoStateBox>
+      </Container>
+    </>
   );
 };
 
