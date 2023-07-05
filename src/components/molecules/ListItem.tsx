@@ -25,10 +25,11 @@ const TodoStateBox = styled.div`
 
 const ListItem = ({ id, content, setTodos }: ListItemProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
+
   const onCheckHandler = () => {
     setIsChecked((prev) => !prev);
   };
-  console.log("isChecked of", content, "is", isChecked);
+  // console.log("isChecked of", content, "is", isChecked);
 
   const onDeleteHandler = () => {
     console.log("delete");
