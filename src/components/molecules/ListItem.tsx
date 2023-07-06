@@ -3,6 +3,7 @@ import Button from "../atoms/Button";
 import { Todo } from "../../types";
 import styled from "styled-components";
 import Input from "../atoms/Input";
+import axios from "axios";
 
 interface ListItemProps {
   id: number;
@@ -29,11 +30,19 @@ const ListItem = ({ id, content, setTodos }: ListItemProps) => {
   const onCheckHandler = () => {
     setIsChecked((prev) => !prev);
   };
-  // console.log("isChecked of", content, "is", isChecked);
+  console.log("isChecked of", content, "is", isChecked);
 
-  const onDeleteHandler = () => {
+  const onDeleteHandler = async () => {
     console.log("delete");
-    setTodos((todos: Todo[]) => todos.filter((todo) => todo.id !== id));
+
+    try {
+      await axios.delete(`http://localhost:8080/api/todo/${id}`).then((res) => {
+        console.log(`${content} is Successfully Deleted!`);
+        setTodos((todos: Todo[]) => todos.filter((todo) => todo.id !== id));
+      });
+    } catch (error) {
+      console.error(`Failed to delete ${content}...ㅠㅠㅠ`, error);
+    }
   };
 
   return (
