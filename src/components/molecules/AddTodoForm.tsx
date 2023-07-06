@@ -8,7 +8,6 @@ import axios from "axios";
 interface AddTodoFormProps {
   todos: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-  fetchTodoList: () => Promise<void>;
 }
 
 const Form = styled.form`
@@ -16,8 +15,7 @@ const Form = styled.form`
   justify-content: space-between;
 `;
 
-const AddTodoForm = ({ todos, setTodos, fetchTodoList }: AddTodoFormProps) => {
-  // const [maxId, setMaxId] = useState<number>(0);
+const AddTodoForm = ({ todos, setTodos }: AddTodoFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const maxId: number = useMemo(() => {
@@ -36,15 +34,11 @@ const AddTodoForm = ({ todos, setTodos, fetchTodoList }: AddTodoFormProps) => {
         await axios.post("http://localhost:8080/api/todos", newTodo);
 
         setTodos([...todos, newTodo]);
-        console.log("aaaaaaaaaaaaaaaaaaaaaa");
-
-        // 추가 후 다시 todo_db 불러오기
-        await fetchTodoList();
       } catch (error) {
         console.error("Error posting todo:", error);
       }
     },
-    [fetchTodoList, setTodos, todos]
+    [setTodos, todos]
   );
 
   const onSubmitHandler = (e: any) => {

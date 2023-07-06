@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import ListItem from "../molecules/ListItem";
 import AddTodoForm from "../molecules/AddTodoForm";
@@ -25,6 +25,8 @@ const TodoListWrapper = styled.div`
 `;
 
 const TodoList = () => {
+  console.log("ttttttttttttttttttttttttttodolist");
+
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const fetchTodoList = useCallback(async () => {
@@ -38,6 +40,7 @@ const TodoList = () => {
 
   // todo_db에서 todos 가져오기
   useEffect(() => {
+    console.log("@#@#");
     fetchTodoList();
 
     console.log("GET: fetch Todo List from todo_db ");
@@ -49,7 +52,6 @@ const TodoList = () => {
       <AddTodoForm
         todos={todos}
         setTodos={setTodos}
-        fetchTodoList={fetchTodoList}
       />
       <TodoListWrapper>
         {todos.map((todo) => {
