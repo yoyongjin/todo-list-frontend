@@ -16,11 +16,11 @@ const Form = styled.form`
 `;
 
 const AddTodoForm = ({ todos, setTodos }: AddTodoFormProps) => {
+  console.log("AAAAAAAAAAAAAAAAAAddTodoForm");
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const maxId: number = useMemo(() => {
-    console.log("todos.length???? ", todos.length);
-
     if (todos.length > 0) {
       return Math.max(...todos.map((todo) => todo.id));
     } else {

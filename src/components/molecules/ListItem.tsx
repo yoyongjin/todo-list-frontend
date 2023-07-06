@@ -9,6 +9,7 @@ interface ListItemProps {
   id: number;
   content: string;
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  fetchTodoList: () => Promise<void>;
 }
 
 const Container = styled.div`
@@ -24,21 +25,20 @@ const TodoStateBox = styled.div`
   align-items: center;
 `;
 
-const ListItem = ({ id, content, setTodos }: ListItemProps) => {
+const ListItem = ({ id, content, setTodos, fetchTodoList }: ListItemProps) => {
+  console.log(`ListItem ${id}: ${content} rendered`);
+
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const onCheckHandler = () => {
     setIsChecked((prev) => !prev);
   };
-  console.log("isChecked of", content, "is", isChecked);
 
   const onDeleteHandler = async () => {
-    console.log("delete");
-
     try {
       await axios.delete(`http://localhost:8080/api/todo/${id}`).then((res) => {
-        console.log(`${content} is Successfully Deleted!`);
-        setTodos((todos: Todo[]) => todos.filter((todo) => todo.id !== id));
+        console.log(`${id}: ${content} is Successfully Deleted!`);
+        fetchTodoList();
       });
     } catch (error) {
       console.error(`Failed to delete ${content}...ㅠㅠㅠ`, error);

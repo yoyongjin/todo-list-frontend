@@ -25,6 +25,8 @@ const TodoListWrapper = styled.div`
 `;
 
 const TodoList = () => {
+  console.log("ttttttttttttttodolist");
+
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const fetchTodoList = useCallback(async () => {
@@ -41,8 +43,8 @@ const TodoList = () => {
     console.log("GET: fetch Todo List from todo_db ");
     fetchTodoList();
   }, [fetchTodoList]);
-  console.log(todos);
 
+  console.log(todos);
   return (
     <Container>
       <AddTodoForm
@@ -57,6 +59,7 @@ const TodoList = () => {
               id={todo.id}
               content={todo.content}
               setTodos={setTodos}
+              fetchTodoList={fetchTodoList}
             />
           );
         })}
