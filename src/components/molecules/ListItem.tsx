@@ -8,7 +8,6 @@ import axios from "axios";
 interface ListItemProps {
   id: number;
   content: string;
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
   fetchTodoList: () => Promise<void>;
 }
 
@@ -25,13 +24,26 @@ const TodoStateBox = styled.div`
   align-items: center;
 `;
 
-const ListItem = ({ id, content, setTodos, fetchTodoList }: ListItemProps) => {
+const ListItem = ({ id, content, fetchTodoList }: ListItemProps) => {
   console.log(`ListItem ${id}: ${content} rendered`);
 
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  // const [isChecked, setIsChecked] = useState<0 | 1>(0);
 
-  const onCheckHandler = () => {
-    setIsChecked((prev) => !prev);
+  const onCheckToggleHandler = async () => {
+    try {
+      await axios
+        .patch(`http://localhost:8080/api/todo/${id}`, { checked: 1 })
+        .then((res) => {
+          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", res.data);
+
+          // setIsChecked((prev) => !prev);
+
+          console.log(`${id}: checked is Successfully Patched!`);
+          fetchTodoList();
+        });
+    } catch (error) {
+      console.error(`Failed to patch checked...ㅠㅠㅠ`, error);
+    }
   };
 
   const onDeleteHandler = async () => {
@@ -51,9 +63,9 @@ const ListItem = ({ id, content, setTodos, fetchTodoList }: ListItemProps) => {
       <TodoStateBox>
         <Input
           type="checkbox"
-          onChange={onCheckHandler}
+          onChange={onCheckToggleHandler}
         />
-        {isChecked ? <Button onClick={onDeleteHandler}>DEL</Button> : ""}
+        <Button onClick={onDeleteHandler}>DEL</Button>
       </TodoStateBox>
     </Container>
   );

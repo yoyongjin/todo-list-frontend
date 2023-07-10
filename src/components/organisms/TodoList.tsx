@@ -58,7 +58,6 @@ const TodoList = () => {
               key={todo.id}
               id={todo.id}
               content={todo.content}
-              setTodos={setTodos}
               fetchTodoList={fetchTodoList}
             />
           );
