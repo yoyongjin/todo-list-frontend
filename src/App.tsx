@@ -24,16 +24,15 @@ const App = () => {
   const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
-    const localIsLoggedIn = localStorage.getItem(`isLoggedIn_${userId}`);
-    console.log(localIsLoggedIn);
-
-    setIsLoggedIn(localIsLoggedIn === "true" || localIsLoggedIn === null);
+    const localIsLoggedInId = localStorage.getItem(`isLoggedIn`);
+    setUserId(() => Number(localIsLoggedInId));
+    setIsLoggedIn(!!localIsLoggedInId);
   }, [userId]);
 
   const onLogoutHandler = () => {
     console.log("logout");
 
-    localStorage.removeItem(`isLoggedIn_${userId}`);
+    localStorage.removeItem(`isLoggedIn`);
     setIsLoggedIn(false);
   };
 

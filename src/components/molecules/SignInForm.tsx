@@ -28,7 +28,7 @@ const SignInForm = ({ setIsLoggedIn, setUserId }: SignInFormProps) => {
           console.log("서버에서 가져온 userId", res.data.userId);
           setUserId(res.data.userId);
           setIsLoggedIn(true);
-          localStorage.setItem(`isLoggedIn_${res.data.userId}`, "true");
+          localStorage.setItem(`isLoggedIn`, res.data.userId);
         });
       } catch (error) {
         console.error("Error posting user:", error);
