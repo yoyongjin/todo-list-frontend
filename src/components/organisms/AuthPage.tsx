@@ -14,12 +14,16 @@ const Container = styled.div`
 `;
 interface AuthPageProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserId: React.Dispatch<React.SetStateAction<number>>;
 }
-const AuthPage = ({ setIsLoggedIn }: AuthPageProps) => {
+const AuthPage = ({ setIsLoggedIn, setUserId }: AuthPageProps) => {
   return (
     <Container>
       <SignUpForm />
-      <SignInForm setIsLoggedIn={setIsLoggedIn} />
+      <SignInForm
+        setIsLoggedIn={setIsLoggedIn}
+        setUserId={setUserId}
+      />
     </Container>
   );
 };

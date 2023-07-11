@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import ListItem from "../molecules/ListItem";
 import AddTodoForm from "../molecules/AddTodoForm";
-import { Todo } from "../../types";
+import { FetchedTodo, Todo } from "../../types";
 import axios from "axios";
 
 const Container = styled.div`
@@ -24,19 +24,25 @@ const TodoListWrapper = styled.div`
   gap: 5px;
 `;
 
-const TodoList = () => {
+interface TodoListProps {
+  userId: number;
+}
+
+const TodoList = ({ userId }: TodoListProps) => {
   console.log("ttttttttttttttodolist");
 
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<FetchedTodo[]>([]);
 
   const fetchTodoList = useCallback(async () => {
+    console.log("fetchTodoList");
+
     try {
-      const res = await axios.get("http://localhost:8080/api/todos");
-      setTodos(res.data);
+      const res = await axios.get(`http://localhost:8080/user/todo/${userId}`);
+      setTodos(res.data.todos);
     } catch (error) {
       console.error("Error fetching todo list:", error);
     }
-  }, []);
+  }, [userId]);
 
   // todo_db에서 todos 가져오기
   useEffect(() => {
@@ -44,12 +50,15 @@ const TodoList = () => {
     fetchTodoList();
   }, [fetchTodoList]);
 
+  // todo_db에서 user_id가 일치하는 todo가져오기
+
   console.log(todos);
   return (
     <Container>
       <AddTodoForm
         todos={todos}
         setTodos={setTodos}
+        userId={userId}
       />
       <TodoListWrapper>
         {todos.map((todo) => {

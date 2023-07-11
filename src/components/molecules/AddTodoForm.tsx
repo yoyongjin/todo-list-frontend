@@ -2,12 +2,13 @@ import React, { useCallback, useMemo, useRef } from "react";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
 import styled from "styled-components";
-import { Todo } from "../../types";
+import { FetchedTodo, Todo } from "../../types";
 import axios from "axios";
 
 interface AddTodoFormProps {
-  todos: Todo[];
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todos: FetchedTodo[];
+  setTodos: React.Dispatch<React.SetStateAction<FetchedTodo[]>>;
+  userId: number;
 }
 
 const Form = styled.form`
@@ -15,25 +16,18 @@ const Form = styled.form`
   justify-content: space-between;
 `;
 
-const AddTodoForm = ({ todos, setTodos }: AddTodoFormProps) => {
+const AddTodoForm = ({ todos, setTodos, userId }: AddTodoFormProps) => {
   console.log("AAAAAAAAAAAAAAAAAAddTodoForm");
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const maxId: number = useMemo(() => {
-    if (todos.length > 0) {
-      return Math.max(...todos.map((todo) => todo.id));
-    } else {
-      return 0;
-    }
-  }, [todos]);
 
   const addTodo = useCallback(
     async (newTodo: Todo) => {
       try {
         await axios.post("http://localhost:8080/api/todos", newTodo);
-
-        setTodos([...todos, newTodo]);
+        const newTodoId = todos.length ? todos.length + 1 : 1;
+        console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnn", newTodoId);
+        setTodos([...todos, { ...newTodo, id: newTodoId }]);
       } catch (error) {
         console.error("Error posting todo:", error);
       }
@@ -43,14 +37,16 @@ const AddTodoForm = ({ todos, setTodos }: AddTodoFormProps) => {
 
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
-    console.log("maxId=========", maxId);
+    // console.log("maxId=========", maxId);
     console.log(todos);
+
     if (inputRef.current) {
       console.log(inputRef.current.value);
+
       const newTodo: Todo = {
-        id: maxId + 1,
         content: inputRef.current.value,
         checked: false,
+        userId: userId,
       };
 
       addTodo(newTodo);

@@ -4,7 +4,11 @@ export interface User {
 }
 
 export interface Todo {
-  id: number;
   content: string;
   checked?: boolean;
+  userId?: number;
+}
+
+export interface FetchedTodo extends Todo {
+  id: number;
 }
