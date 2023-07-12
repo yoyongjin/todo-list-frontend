@@ -4,7 +4,7 @@ import TodoList from "./components/organisms/TodoList";
 import Button from "./components/atoms/Button";
 import AuthPage from "./components/organisms/AuthPage";
 import { useState, useEffect } from "react";
-import socketIO from "socket.io-client";
+import { io } from "socket.io-client";
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -20,7 +20,8 @@ const Container = styled.div`
   gap: 15px;
 `;
 
-const socket = socketIO("http://localhost:4000");
+const socket = io("http://localhost:4000");
+// const socket = socketIO.io.connect("http://localhost:4000");
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -32,10 +33,10 @@ const App = () => {
 
   useEffect(() => {
     // 서버로부터 메시지를 받았을 때의 처리 로직
-    socket.on("message", (data: any) => {
-      console.log("서버로부터 메시지를 받았습니다:", data);
-      setReceivedMessages((messages) => [...messages, data]);
-    });
+    // socket.on("message", (data: any) => {
+    //   console.log("서버로부터 메시지를 받았습니다:", data);
+    //   setReceivedMessages((messages) => [...messages, data]);
+    // });
 
     return () => {
       // 컴포넌트 언마운트 시 소켓 연결 해제
@@ -43,11 +44,11 @@ const App = () => {
     };
   }, []);
 
-  const sendMessage = () => {
-    // 메시지를 서버로 전송
-    socket.emit("message", message);
-    setMessage("");
-  };
+  // const sendMessage = () => {
+  //   // 메시지를 서버로 전송
+  //   socket.emit("message", message);
+  //   setMessage("");
+  // };
 
   // 로그인 유지(localStorage)
   useEffect(() => {
