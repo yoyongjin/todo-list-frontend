@@ -42,7 +42,8 @@ const TodoList = ({ userId, socket }: TodoListProps) => {
     try {
       const res = await axios.get(`http://localhost:8080/user/todo/${userId}`);
       setTodos(res.data.todos);
-      // console.log("dddddddddddddddddddd", res.data.todos); => correct
+
+      console.log("ddddddd00ddd", res.data.todos);
     } catch (error) {
       console.error("Error fetching todo list:", error);
     }
@@ -52,11 +53,11 @@ const TodoList = ({ userId, socket }: TodoListProps) => {
   useEffect(() => {
     console.log("GET: fetch Todo List from todo_db ");
     fetchTodoList();
+    socket.emit("joinRoom", "room");
 
-    socket.on("todos", (data) => {
-      setTodos(data);
-      console.log("dddddddddd", data);
-    });
+    return () => {
+      socket.disconnect();
+    };
   }, [fetchTodoList, socket]);
 
   // todo_db에서 user_id가 일치하는 todo가져오기

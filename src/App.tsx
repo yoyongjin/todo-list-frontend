@@ -4,7 +4,8 @@ import TodoList from "./components/organisms/TodoList";
 import Button from "./components/atoms/Button";
 import AuthPage from "./components/organisms/AuthPage";
 import { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
+import socketIO from "socket.io-client";
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
@@ -20,8 +21,8 @@ const Container = styled.div`
   gap: 15px;
 `;
 
+// const socket = io("http://localhost:4000");
 const socket = io("http://localhost:4000");
-// const socket = socketIO.io.connect("http://localhost:4000");
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);

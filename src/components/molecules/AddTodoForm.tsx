@@ -13,6 +13,11 @@ interface AddTodoFormProps {
   socket: Socket;
 }
 
+interface BroadCaseData {
+  room: string;
+  newTodo: FetchedTodo;
+}
+
 const Form = styled.form`
   display: flex;
   justify-content: space-between;
@@ -38,17 +43,13 @@ const AddTodoForm = ({ todos, setTodos, userId, socket }: AddTodoFormProps) => {
           });
 
         // socket
-        socket.emit("addTodo", newTodo);
+        socket.emit("addTodo", { room: "room", newTodo });
       } catch (error) {
         console.error("Error posting todo:", error);
       }
     },
     [setTodos, socket]
   );
-
-  useEffect(() => {
-    socket.on("todos", (data) => setTodos(data));
-  }, [setTodos, socket]);
 
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
@@ -69,6 +70,13 @@ const AddTodoForm = ({ todos, setTodos, userId, socket }: AddTodoFormProps) => {
       inputRef.current.value = "";
     }
   };
+
+  useEffect(() => {
+    socket.on("newTodo", (data: BroadCaseData) => {
+      setTodos((prevTodos) => [...prevTodos, data.newTodo]);
+      console.log("shiiiiiiiiiiiiiiiiiiiiit", data.newTodo);
+    });
+  }, [setTodos, socket]);
 
   return (
     <Form onSubmit={onSubmitHandler}>
