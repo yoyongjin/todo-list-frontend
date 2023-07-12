@@ -25,7 +25,6 @@ const Form = styled.form`
 
 const AddTodoForm = ({ todos, setTodos, userId, socket }: AddTodoFormProps) => {
   console.log("AAAAAAAAAAAAAAAAAAddTodoForm");
-  // console.log(todos); => 많음
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -85,12 +84,7 @@ const AddTodoForm = ({ todos, setTodos, userId, socket }: AddTodoFormProps) => {
         placeholder="input todo"
         ref={inputRef}
       />
-      <Button
-        type="submit"
-        // onClick={onSubmitHandler}
-      >
-        ADD
-      </Button>
+      <Button type="submit">ADD</Button>
     </Form>
   );
 };

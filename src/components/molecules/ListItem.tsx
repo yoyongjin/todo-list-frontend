@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import Button from "../atoms/Button";
-import { Todo } from "../../types";
 import styled from "styled-components";
 import Input from "../atoms/Input";
 import axios from "axios";
@@ -27,18 +25,14 @@ const TodoStateBox = styled.div`
 const ListItem = ({ id, content, fetchTodoList }: ListItemProps) => {
   console.log(`ListItem ${id}: ${content} rendered`);
 
-  // const [isChecked, setIsChecked] = useState<0 | 1>(0);
-
   const onCheckToggleHandler = async () => {
     try {
       await axios
         .patch(`http://localhost:8080/api/todo/${id}`, { checked: 1 })
         .then((res) => {
           console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", res.data);
-
-          // setIsChecked((prev) => !prev);
-
           console.log(`${id}: checked is Successfully Patched!`);
+
           fetchTodoList();
         });
     } catch (error) {

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import ListItem from "../molecules/ListItem";
-import Button from "../atoms/Button";
 import AddTodoForm from "../molecules/AddTodoForm";
-import { FetchedTodo, Todo } from "../../types";
+import { FetchedTodo } from "../../types";
 import axios from "axios";
 import { Socket } from "socket.io-client";
 
