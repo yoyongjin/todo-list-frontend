@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import ListItem from "../molecules/ListItem";
+import Button from "../atoms/Button";
 import AddTodoForm from "../molecules/AddTodoForm";
 import { FetchedTodo, Todo } from "../../types";
 import axios from "axios";
+import { Socket } from "socket.io-client";
 
 const Container = styled.div`
   display: flex;
@@ -26,9 +28,10 @@ const TodoListWrapper = styled.div`
 
 interface TodoListProps {
   userId: number;
+  socket: Socket;
 }
 
-const TodoList = ({ userId }: TodoListProps) => {
+const TodoList = ({ userId, socket }: TodoListProps) => {
   console.log("ttttttttttttttodolist");
 
   const [todos, setTodos] = useState<FetchedTodo[]>([]);
@@ -39,6 +42,7 @@ const TodoList = ({ userId }: TodoListProps) => {
     try {
       const res = await axios.get(`http://localhost:8080/user/todo/${userId}`);
       setTodos(res.data.todos);
+      // console.log("dddddddddddddddddddd", res.data.todos); => correct
     } catch (error) {
       console.error("Error fetching todo list:", error);
     }
@@ -48,7 +52,12 @@ const TodoList = ({ userId }: TodoListProps) => {
   useEffect(() => {
     console.log("GET: fetch Todo List from todo_db ");
     fetchTodoList();
-  }, [fetchTodoList]);
+
+    socket.on("todos", (data) => {
+      setTodos(data);
+      console.log("dddddddddd", data);
+    });
+  }, [fetchTodoList, socket]);
 
   // todo_db에서 user_id가 일치하는 todo가져오기
 
@@ -59,6 +68,7 @@ const TodoList = ({ userId }: TodoListProps) => {
         todos={todos}
         setTodos={setTodos}
         userId={userId}
+        socket={socket}
       />
       <TodoListWrapper>
         {todos.map((todo) => {
