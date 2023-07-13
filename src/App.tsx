@@ -4,19 +4,31 @@ import TodoList from "./components/organisms/TodoList";
 import Button from "./components/atoms/Button";
 import AuthPage from "./components/organisms/AuthPage";
 import { useState, useEffect } from "react";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 
 const GlobalStyles = createGlobalStyle`
   ${reset};
+
+  html {
+    box-sizing: border-box;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
 `;
 
 const Container = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #fcc;
+  /* background-color: #fcc; */
+  border: 1px solid #ccc;
   gap: 15px;
 `;
 
